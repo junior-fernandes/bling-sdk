@@ -1,0 +1,25 @@
+{
+	"name": "junior-fernandes/bling-php-sdk",
+	"description": "Bling PHP SDK",
+	"keywords": ["bling", "api", "sdk"],
+	"license": "MIT",
+	"autoload": {
+		"psr-4": {
+			"Bling\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Bling\\Tests\\": "tests"
+		}
+	},
+	"require": {
+		"guzzlehttp/guzzle": "^7.0.1",
+		"spatie/array-to-xml": "^2.11"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "^8.0",
+		"symfony/dotenv": "^5.0",
+		"nesbot/carbon": "^2.33"
+	}
+}
