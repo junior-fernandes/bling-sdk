@@ -6,52 +6,27 @@ use Spatie\ArrayToXml\ArrayToXml;
 
 class ProductRepository extends BaseRepository
 {
-    public function all($page = 1): ?Object
+    public function all(array $filters = [], $page = 1): ?Object
     {
-        // $options['page'] = $page;
 
-        return $this->client->get("produtos/page={$page}/json/");
-
-    }
-
-    public function find(string $codigo, bool $estoque = false, string $loja = null, bool $imagem = false): ?Object
-    {
         $options = [];
 
-        if($estoque) {
-            $options['estoque'] = 'S';
+        foreach ($filters as $k => $v) {
+            $filters[$k] = $k.'['.$v.']';
         }
 
-        if($loja) {
-            $options['loja'] = $loja;
+        if(count($filters)) {
+            $options['filters'] = implode('; ', $filters);
         }
 
-        if($imagem) {
-            $options['imagem'] = 'S';
-        }
+        return $this->client->get('produtos/page='.$page.'/json/', $options);
 
-        return $this->client->get("produto/$codigo/json/", $options);
     }
 
-    public function findByProvider(string $codigo, string $idFornecedor, bool $estoque = false, string $loja = null, bool $imagem = false): ?Object
+    public function find(string $codigo): ?Object
     {
-        $options = [];
-
-        if($estoque) {
-            $options['estoque'] = 'S';
-        }
-
-        if($loja) {
-            $options['loja'] = $loja;
-        }
-
-        if($imagem) {
-            $options['imagem'] = 'S';
-        }
-
-        return $this->client->get("produto/$codigo/json/", $options);
+        return $this->client->get("produto/$codigo/json/");
     }
-
 
     public function create(array $params): ?Object
     {
@@ -83,4 +58,5 @@ class ProductRepository extends BaseRepository
     {
         return $this->client->delete("produto/$codigo/json/");
     }
+    
 }
